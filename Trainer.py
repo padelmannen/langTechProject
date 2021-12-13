@@ -6,6 +6,7 @@ import pandas as pd
 from sklearn import metrics
 from sklearn.feature_selection import SelectKBest, chi2
 from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.svm import LinearSVC
@@ -14,7 +15,7 @@ from sklearn.svm import LinearSVC
 # dataSet = "CleanXYdata.csv"
 # targets = ["80", "90", "100"]
 
-modelPath = "./modelCat.sav"      ##Om vi vill köra med kategorier
+modelPath = "./NBmodelCat.sav"      ##Om vi vill köra med kategorier
 dataSet = "CleanCatXYdata.csv"
 targets = ["OK", "Good", "Tasty", "Perfect"]
 
@@ -24,7 +25,8 @@ X_train, X_test, y_train, y_test = train_test_split(data.cleanedDesc, data.point
 if not (os.path.exists(modelPath)):  #if model dont exist in dir
     pipeline = Pipeline([('vect', TfidfVectorizer(ngram_range=(1, 2), stop_words="english", sublinear_tf=True)),
                          ('chi', SelectKBest(chi2, k=100000)),
-                         ('clf', LinearSVC(C=1.0, penalty='l1', max_iter=3000, dual=False))])
+                        # ('clf', LinearSVC(C=1.0, penalty='l1', max_iter=3000, dual=False))])
+                         ('clf', MultinomialNB())])
 
     model = pipeline.fit(X_train, y_train)
     pickle.dump(model, open(modelPath, 'wb'))
@@ -38,6 +40,7 @@ clf = model.named_steps['clf']
 featureNames = vectorizer.get_feature_names()
 featureNames = [featureNames[i] for i in chi.get_support(indices=True)]
 featureNames = np.asarray(featureNames)
+
 predicted = model.predict(X_test)
 
 for i, label in enumerate(targets):
