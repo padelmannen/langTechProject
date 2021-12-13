@@ -1,22 +1,12 @@
-import csv
-import json
+import re
 
-filename = 'winemag-data-130k-v2.csv'
+import pandas as pd
+from nltk import SnowballStemmer
+from nltk.corpus import stopwords
 
-with open(filename, 'r', encoding="utf8") as csvfile:
-    w = csv.writer(open("XYdata.csv", "w", encoding="utf8"))
-    count=0
-    datareader = csv.reader(csvfile)
-    for row in datareader:
-        #print(row)
-        #print(row[2])
-        if count == 0:
-            pass
-        else:
-            w.writerow([row[2], row[4]])
-        count += 1
-
-
-
-
-
+data = pd.read_csv('XYdata.csv')
+print(data)
+stemmer = SnowballStemmer('english')
+stopWords = stopwords.words('english')
+data['cleanedDesc'] = data['description'].apply(lambda x: " ".join([stemmer.stem(i) for i in re.sub("[^a-zA-Z)]", " ", x).split() if i not in stopWords]).lower())
+data[['cleanedDesc', 'points']].to_csv('CleanXYdata.csv')
