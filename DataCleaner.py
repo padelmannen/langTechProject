@@ -3,7 +3,7 @@ import pandas as pd
 from nltk import SnowballStemmer
 from nltk.corpus import stopwords
 
-##Tvättnngen av datasetet gör: 1) Tar bort alla skiljetecken 2) Tar bort vanligt förekommande ord från stopwords, ex. "for", "and" och "i". 3) Gör om alla bokstäver till små.
+##Tvättningen av datasetet gör: 1) Tar bort alla skiljetecken 2) Tar bort vanligt förekommande ord från stopwords, ex. "for", "and" och "i". 3) Gör om alla bokstäver till små.
 
 data = pd.read_csv('catXYdata.csv')
 stemmer = SnowballStemmer('english')    ##gör om ord till sin grundform

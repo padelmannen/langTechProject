@@ -1,7 +1,6 @@
 import csv
 
 filename = 'winemag-data-130k-v2.csv'
-#ehj
 with open(filename, 'r', encoding="utf8") as csvfile:
     w = csv.writer(open("catXYdata.csv", "w", encoding="utf8"))
     datareader = csv.reader(csvfile)

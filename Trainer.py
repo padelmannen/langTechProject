@@ -8,12 +8,12 @@ from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
 from sklearn.feature_extraction.text import TfidfVectorizer
-#from sklearn.svm import LinearSVC
+from sklearn.svm import LinearSVC
 
 dataSet = "CleanXYdata.csv"
 
 
-algortim = MultinomialNB()
+algoritm = MultinomialNB()
 #algoritm = LinearSVC()
 
 
@@ -39,7 +39,7 @@ X_train, X_test, y_train, y_test = train_test_split(data.cleanedDesc, data.point
 if not (os.path.exists(modelPath)):  #if model dont exist in dir
     pipeline = Pipeline([('vect', TfidfVectorizer(ngram_range=nGram_range)),
                          ('chi', SelectKBest(chi2, k=10000)),
-                         ('clf', algortim)])
+                         ('clf', algoritm)])
 
     model = pipeline.fit(X_train, y_train)
     pickle.dump(model, open(modelPath, 'wb'))
