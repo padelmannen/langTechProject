@@ -1,9 +1,11 @@
 import os
 import pickle
 import numpy as np
+import pandas
 import pandas as pd
 from sklearn import metrics
 from sklearn.feature_selection import SelectKBest, chi2
+from sklearn.metrics import classification_report
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
@@ -23,11 +25,11 @@ nGram_range = (1, 3)
 
 #modelPath = "oneGramNBmodel.sav"
 #modelPath = "twoGramNBmodel.sav"
-#modelPath = "threeGramNBmodel.sav"
+modelPath = "threeGramNBmodel.sav"
 
 #modelPath = "oneGramLinModel.sav"
 #modelPath = "twoGramLinModel.sav"
-modelPath = "threeGramLinModel.sav"
+#modelPath = "threeGramLinModel.sav"
 
 
 
@@ -54,15 +56,21 @@ featureNames = vectorizer.get_feature_names()
 featureNames = [featureNames[i] for i in chi.get_support(indices=True)]
 featureNames = np.asarray(featureNames)
 
-predicted = model.predict(X_test)
-
+wordDict = {}
 for i, label in enumerate(targets):
     top10 = np.argsort(clf.coef_[i])[-10:]
+    #print(featureNames[top10])
+    wordDict[label]=featureNames[top10]
     print("%s: %s" % (label, " ".join(featureNames[top10])))
 
-result = model.score(X_test, y_test)
-print(metrics.classification_report(y_true=y_test, y_pred=predicted))
-print(result)
+words = pd.DataFrame(wordDict).to_latex()
+print(words)
+
+predicted = model.predict(X_test)
+report = classification_report(y_true=y_test, y_pred=predicted, output_dict=True)
+df = pd.DataFrame(report).transpose()
+print(df.to_latex())
+
 print(model.predict(["that was not so tasteful, but i liked the sweetness"]))
 print(model.predict(["that was probably the best wine i have ever tasted, fantastic. Round taste"]))
 print(model.predict(["delicious wine, a deep complex taste with impressive deepness. Excellent work from the winemaker"]))
