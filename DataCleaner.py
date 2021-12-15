@@ -1,6 +1,4 @@
 import re
-import string
-
 import pandas as pd
 from nltk import SnowballStemmer
 from nltk.corpus import stopwords
