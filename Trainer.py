@@ -27,6 +27,8 @@ nGram_range = (1, 3)
 #modelPath = "twoGramNBmodel.sav"
 modelPath = "threeGramNBmodel.sav"
 
+#modelPath = "indthreeGramNBmodel.sav"
+
 #modelPath = "oneGramLinModel.sav"
 #modelPath = "twoGramLinModel.sav"
 #modelPath = "threeGramLinModel.sav"
