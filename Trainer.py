@@ -10,11 +10,11 @@ from sklearn.svm import LinearSVC
 dataSet = "CleanXYdata.csv"
 
 
-#algoritm = MultinomialNB()
+algoritm = MultinomialNB()
 #algoritm = LinearSVC()
 
-#nGram_range = (1, 1)
-nGram_range = (1, 2)
+nGram_range = (1, 1)
+#nGram_range = (1, 2)
 #nGram_range = (1, 3)
 
 targets = ["OK", "Good", "Tasty", "Perfect"]
